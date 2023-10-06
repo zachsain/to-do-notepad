@@ -1,16 +1,20 @@
-import SignOut from "@/components/sign-out";
+import SignOut from "@/app/components/sign-out";
+import Test from "@/app/components/test";
+import { getServerSession } from "next-auth";
+import { Redirect } from "next";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+
+  const session = await getServerSession()
+  if(!session || !session.user){
+    redirect('/login')
+  }
   return (
     <div className="flex h-screen bg-black">
       <div className="w-screen h-screen flex flex-col space-y-5 justify-center items-center">
-        <iframe
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="w-full max-w-screen-lg aspect-video"
-        ></iframe>
+       <h1 className="text-white"> This is a protected route </h1> 
+        <Test />
         <SignOut />
       </div>
     </div>
